@@ -1,0 +1,245 @@
+.box-text-enrique {
+  font-family: "ABCfina" !important;
+  font-size: 40px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.nosotros-container {
+  display: flex;
+  flex-direction: column;
+}
+.box-image-border {
+  border-radius: 100px;
+}
+
+.section-img-two {
+  font-family: "ABCfina" !important;
+  background-color: #153e35;
+  border-radius: 13px;
+  margin: 25px 25px;
+  height: 600px;
+
+  display: flex;
+
+  .box-img {
+    width: 50%;
+    object-fit: cover;
+  }
+
+  .box-text {
+    max-height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 50px;
+    font-size: 25px;
+    color: #ffffff;
+
+    .box-text-enrique {
+      font-size: 25px;
+    }
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .section-img-two {
+    flex-direction: column;
+    justify-content: center;
+    margin: 25px 6px;
+
+    .box-img {
+      display: none;
+    }
+
+    .box-text {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+    }
+  }
+}
+
+.section-img-three {
+  font-family: "ABCfina" !important;
+  background-color: #ff9015;
+  border-radius: 13px;
+  margin: 25px 25px;
+  height: 600px;
+  display: flex;
+  flex-direction: row-reverse;
+
+  .box-img {
+    width: 50%;
+    object-fit: cover;
+
+    .box-image-border {
+      border-radius: 0 15px 15px 0;
+    }
+  }
+
+  .box-text {
+    max-height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 50px;
+    font-size: 25px;
+    color: #ffffff;
+
+    .boxt-text-volvamos {
+      color: #ffffff;
+      font-family: ABCfina !important;
+    }
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .section-img-three {
+    flex-direction: column;
+    margin: 25px 6px;
+
+    .box-img {
+      width: 100%;
+      height: -webkit-fill-available;
+
+      .box-image-border {
+        border-radius: 15px 15px 0 0;
+      }
+    }
+
+    .box-text {
+      width: 100%;
+      padding: 15px 15px 25px 15px;
+
+      .boxt-text-volvamos {
+        color: #ffffff;
+        font-family: ABCfina !important;
+        font-size: 25px;
+        margin-bottom: 0;
+        font-weight: lighter;
+      }
+
+      .boxt-text-volvamos-description {
+        font-size: 15px;
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1600px) {
+  .section-img-three {
+    .box-text {
+      .boxt-text-volvamos {
+        font-size: 36px;
+      }
+      .boxt-text-volvamos-description {
+        font-size: 18px;
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .section-img-three {
+    .box-text {
+      .boxt-text-volvamos {
+        font-size: 32px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .section-img-three {
+    .box-text {
+      .boxt-text-volvamos {
+        font-size: 21px;
+      }
+      .boxt-text-volvamos-description {
+        font-size: 16px;
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.section-img {
+  font-family: "ABCfina" !important;
+  background-color: #f6f6f8;
+  border-radius: 13px;
+  margin: 25px 25px;
+  height: 600px;
+}
+
+@media screen and (max-width: 750px) {
+  .section-img {
+    margin: 25px 6px;
+  }
+}
+
+.section-img .box-img {
+  position: relative;
+}
+
+.section-img .box-img img {
+  height: 600px;
+  border-radius: 13px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.section-img .box-text {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 50px;
+  bottom: 35%;
+  font-size: 25px;
+  color: #ffffff;
+}
+
+.section-img .box-text .box-text-button {
+  background-color: #000000;
+  border-radius: 13px;
+  padding: 10px 20px;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: "ABCfina";
+  font-size: 20px;
+  transition: 0.5s;
+
+  &:hover {
+    background-color: hsl(0, 0%, 80%);
+    color: #000000;
+  }
+}
+
+.align-left {
+  align-items: flex-start !important;
+}
+@media screen and (max-width: 749px) {
+  .align-left-mobile {
+    align-items: flex-start !important;
+
+    .boxt-text-volvamos {
+      width: 90% !important;
+    }
+  }
+}
+
+.section-img .box-text p {
+  font-family: "ABCfina";
+  margin: 0;
+}

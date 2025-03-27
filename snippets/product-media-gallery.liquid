@@ -1,0 +1,273 @@
+{% comment %}
+Renders a product media gallery. Should be used with 'media-gallery.js'
+Also see 'product-media-modal'
+
+Accepts:
+- product: {Object} Product liquid object
+- section: {Object} Section liquid object
+
+Usage:
+{% render 'product-media-gallery' %}
+{% endcomment %}
+
+{{ 'slick.css' | asset_url | stylesheet_tag }}
+{{ 'slick-theme.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'slick.min.js' | asset_url }}"></script>
+
+<div
+    class="grid__item product__media-wrapper{% if section.settings.media_position == 'right' %} medium-hide large-up-hide{% endif %}">
+    <div class="mobile-gallery">
+        {%- for media in product.media -%}
+        <div class="copa-mobile-image-container">
+            <div class="copa-image-slide">
+                <img width="auto" height="auto" class="copa-image-slide-img"
+                    src="{{ media | img_url: '930x930', crop: 'bottom' }}">
+            </div>
+        </div>
+        {%- endfor -%}
+    </div>
+    <style>
+        @media screen and (min-width: 481px) {
+            .mobile-gallery {
+                display: none !important;
+            }
+        }
+
+        .copa-mobile-image-container {
+            position: relative;
+        }
+
+        .copa-image-slide {
+            width: 100%;
+            height: 100%;
+        }
+
+        .copa-image-slide-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 13px;
+            overflow: hidden;
+        }
+    </style>
+    <div
+        class="product__media imagen-principal  media media--transparent global-media-settings product__media_mobile_height">
+        <div class="imagen-principal imagen-principal-activa" style="position: relative; " id="{{product.title}}">
+            <div class="mini-galeria">
+                {%- for media in product.media limit: 4 -%}
+                <img width="auto" height="auto" class="galeria-imagen galeria-imagen-main"
+                    src="{{ media | img_url: '930x930', crop: 'bottom' }}">
+                {%- endfor -%}
+            </div>
+            <img width="auto" height="auto" class="absolute-image-container-main-product"
+                src="{{ product.media[0].preview_image | img_url: '930x930' }}">
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        initSocialMediaShowcase();
+    });
+
+    function initSocialMediaShowcase() {
+        $('.mobile-gallery').slick({
+            dots: false,
+            arrows: true,
+            loop: true,
+            infinite: true,
+            centerMode: true,
+            speed: 300,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+        });
+    }
+</script>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Selecciona todos los elementos <details>
+        document.querySelectorAll('details').forEach(function (detail) {
+            detail.addEventListener("toggle", function () {
+                var toggleIcon = detail.querySelector('.toggle-icon');
+                if (!toggleIcon) return;
+
+                // Selecciona los dos iconos
+                var iconPlus = toggleIcon.querySelector('.icon-plus');
+                var iconMinus = toggleIcon.querySelector('.icon-minus');
+
+                if (detail.open) {
+                    if (iconPlus) iconPlus.style.display = "none";
+                    if (iconMinus) iconMinus.style.display = "inline-block";
+                    toggleIcon.classList.add("open");
+                } else {
+                    // Cuando se cierra: revertir la visibilidad
+                    if (iconPlus) iconPlus.style.display = "inline-block";
+                    if (iconMinus) iconMinus.style.display = "none";
+                    toggleIcon.classList.remove("open");
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Asigna el valor del custom field a una variable JavaScript.
+        // Asegúrate de que product.metafields.custom.color esté definido en el producto.
+        var customColor = "{{ product.metafields.custom.color }}";
+
+        // Si no se encuentra el valor, se asigna un color por defecto.
+        if (!customColor || customColor === "") {
+            customColor = "#2497E3";
+        }
+
+        // Define el CSS utilizando template literals para insertar el customColor
+        var css = `
+      input[type=range] {
+        -webkit-appearance: none;
+        width: 100%;
+      }
+      input[type=range]:focus {
+        outline: none;
+      }
+      input[type=range]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 5px;
+        animate: 0.2s;
+        box-shadow: 0px 0px 0px ${customColor};
+        background: ${customColor};
+        border-radius: 2px;
+        border: 0px solid ${customColor};
+      }
+      input[type=range]::-webkit-slider-thumb {
+        box-shadow: 0px 0px 0px ${customColor};
+        border: 1px solid ${customColor};
+        height: 18px;
+        width: 18px;
+        border-radius: 25px;
+        background: ${customColor};
+        -webkit-appearance: none;
+        margin-top: -7px;
+      }
+      input[type=range]:focus::-webkit-slider-runnable-track {
+        background: ${customColor};
+      }
+      input[type=range]::-moz-range-track {
+        width: 100%;
+        height: 5px;
+        animate: 0.2s;
+        box-shadow: 0px 0px 0px ${customColor};
+        background: ${customColor};
+        border-radius: 25px;
+        border: 0px solid ${customColor};
+      }
+      input[type=range]::-moz-range-thumb {
+        box-shadow: 0px 0px 0px ${customColor};
+        border: 1px solid ${customColor};
+        height: 18px;
+        width: 18px;
+        border-radius: 25px;
+        background: ${customColor};
+      }
+      input[type=range]::-ms-track {
+        width: 100%;
+        height: 5px;
+        animate: 0.2s;
+        background: transparent;
+        border-color: transparent;
+        color: transparent;
+      }
+      input[type=range]::-ms-fill-lower {
+        background: ${customColor};
+        border: 0px solid ${customColor};
+        border-radius: 2px;
+        box-shadow: 0px 0px 0px ${customColor};
+      }
+      input[type=range]::-ms-fill-upper {
+        background: ${customColor};
+        border: 0px solid ${customColor};
+        border-radius: 2px;
+        box-shadow: 0px 0px 0px ${customColor};
+      }
+      input[type=range]::-ms-thumb {
+        margin-top: 1px;
+        box-shadow: 0px 0px 0px ${customColor};
+        border: 1px solid ${customColor};
+        height: 18px;
+        width: 18px;
+        border-radius: 25px;
+        background: ${customColor};
+      }
+      input[type=range]:focus::-ms-fill-lower {
+        background: ${customColor};
+      }
+      input[type=range]:focus::-ms-fill-upper {
+        background: ${customColor};
+      }
+    `;
+
+        // Crea un elemento <style>, le asigna el contenido y lo inserta en el <head>
+        var styleElement = document.createElement("style");
+        styleElement.type = "text/css";
+        styleElement.appendChild(document.createTextNode(css));
+        document.head.appendChild(styleElement);
+    });
+</script>
+
+<script>
+    // FUNCIONAMIENTO DE BOTONES DE CAMBIO DE PRODUCTO
+    const botones = document.querySelectorAll(".opcion");
+    botones.forEach((boton) => boton.addEventListener("click", () => {
+        if (!boton.classList.contains("opcion-activa")) { // INTERACCION DEL BOTON
+            const botonActivo = document.getElementsByClassName("opcion-activa")[0];
+            botonActivo.classList.remove("opcion-activa");
+            const producto = boton.getAttribute("producto");
+
+            // FUNCIONAMIENTO DE INFO
+            const productoInfoActivo = document.getElementsByClassName("opcion-info-activa")[0];
+            productoInfoActivo.classList.remove("opcion-info-activa");
+            const productoSeleccionadoInfo = document.getElementById("info-" + producto);
+            productoSeleccionadoInfo.classList.add("opcion-info-activa");
+
+            // FUNCIONAMIENTO DE GALERIA
+            const galeriaActiva = document.getElementsByClassName("imagen-principal-activa")[0];
+            galeriaActiva.classList.remove("imagen-principal-activa");
+            const nuevaGaleriaActiva = document.getElementById(producto);
+            nuevaGaleriaActiva.classList.add("imagen-principal-activa");
+
+            // AGREGAR ESTADO ACTIVO AL BOTON CLICKEADO
+            boton.classList.add("opcion-activa");
+        }
+    }));
+
+    // FUNCIONAMIENTO DE GALERIA
+    const imagenes = document.querySelectorAll(".galeria-imagen");
+    imagenes.forEach((imagen) => {
+        imagen.addEventListener("click", () => {
+            const imagenUrl = imagen.getAttribute("src");
+            const absoluteImage = document.getElementsByClassName("absolute-image-container-main-product")[0];
+
+            // Aplicar efecto fade-out
+            absoluteImage.style.opacity = 0;
+
+            // Esperar a que la nueva imagen se cargue
+            absoluteImage.onload = function () {
+                // Una vez cargada, hacer fade-in
+                absoluteImage.style.opacity = 1;
+            };
+
+            // Actualizar el src de la imagen
+            absoluteImage.src = imagenUrl;
+
+            // También se actualiza el background de la imagen principal si es necesario
+            const imagenPrincipal = document.getElementsByClassName("imagen-principal-activa");
+            if (imagenPrincipal[0]) {
+                imagenPrincipal[0].style.backgroundImage = "url(" + imagenUrl + ")";
+            }
+        });
+    });
+</script>

@@ -1,0 +1,118 @@
+
+@media screen and (max-width: 749px) {    
+    .grid__item__main_collection_desktop {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 750px) {
+    .grid__item__main_collection_desktop {
+        display: block;
+    }
+}
+
+
+
+@media screen and (max-width: 749px) {    
+    .grid__item__main_collection_mobile{
+        display: block;
+    }
+}
+
+@media screen and (min-width: 750px) {
+    .grid__item__main_collection_mobile{
+        display: none;
+    }
+}
+
+/* Common styles */
+.info-container {
+    position: relative;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 8px 11px 8px;
+    width: 100%;
+    z-index: 2;
+}
+
+.card-title,
+.card-desc {
+    font-family: "ABCfina";
+    text-decoration: none;
+    line-height: normal;
+}
+
+.card-title {
+    text-transform: uppercase;
+}
+
+.card-desc {
+    text-transform: none;
+}
+
+.section-header {
+    font-family: "ABCcopa";
+}
+
+
+/* Card styles */
+.cards {
+    display: flex;
+}
+
+.card,
+.card-mobile-container {
+    position: relative;
+    height: 428px;
+    border-radius: 13px;
+    display: flex;
+    align-items: flex-end;
+    text-align: left;
+    color: #444;
+    overflow: hidden;
+}
+
+.card-mobile-container {
+    height: 480px;
+    text-decoration: none;
+    offset-position: normal;
+}
+
+.card-info-price,
+.card-mobile-container .card-info-price {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+/* Background and image styles */
+.card-bg,
+.card-product-img,
+.card-bg-2,
+.card-product-img-2 {
+    background-position: center;
+    background-size: cover;    
+    transition-duration: 0.5s;
+}
+
+.card-bg,
+.card-product-img {
+    object-fit: cover;
+    opacity: 1;    
+}
+
+.card-bg-2,
+.card-product-img-2 {
+    transition-duration: 0.5s;
+    opacity: 0;    
+}
+
+/* Button styles */
+.pro-card-mobile-button {
+    min-height: 39px;
+    background-color: transparent;
+    border: 1px solid #707070;
+    border-radius: 32px;
+}

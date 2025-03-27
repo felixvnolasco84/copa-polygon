@@ -1,0 +1,133 @@
+{% comment %}
+Accepts:
+- product: {Object} product object.
+{% endcomment %}
+
+{{ 'slick.css' | asset_url | stylesheet_tag }}
+{{ 'slick-theme.css' | asset_url | stylesheet_tag }}
+
+<div class="feature-carousel-wrapper">
+    {%- assign features = product.metafields.custom.product_features.value -%}
+
+    {%- if features != blank -%}
+    <div class="feature-carousel">
+        {%- for feature_gid in features -%}
+        {%- assign feature = feature_gid | metaobject -%}
+
+
+        <div class="feature-slide">
+            <div class="feature-image">
+                {%- if feature.image != blank -%}
+                <img src="{{ feature.image | image_url: width: 600 }}" alt="{{ feature.title }}" loading="lazy"
+                    width="600" height="{{ 600 | divided_by: feature.image.aspect_ratio | round }}">
+                {%- endif -%}
+            </div>
+            <div class="feature-content">
+
+                {% assign finalTitle = feature.title | split: "|" %}
+
+                {% if finalTitle[0] %}
+                <h3 class="feature-title">{{ finalTitle[0] }}</h3>
+                {% endif %}
+
+
+                <div class="feature-description">
+                    {{ feature.description }}
+                </div>
+            </div>
+        </div>
+        {%- endfor -%}
+    </div>
+    {%- else -%}
+    <p class="no-features">No product features available</p>
+    {%- endif -%}
+</div>
+
+<script src="{{ 'jquery.min.js' | asset_url }}"></script>
+<script src="{{ 'slick.min.js' | asset_url }}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $('.feature-carousel').slick({
+            dots: false,
+            arrows: true,
+            infinite: false,
+            speed: 300, 
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                        dots: false
+                    }
+                },
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        dots: true
+                    }
+                }
+            ]
+        });
+    });
+</script>
+
+<style>
+    .feature-carousel-wrapper {
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .feature-slide {
+        padding: 15px;
+        outline: none;
+    }
+
+    .feature-image {
+        max-width: 360px;
+        margin: 0 auto;
+        margin-bottom: 20px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .feature-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .feature-content {
+        font-family: 'ABCfina', sans-serif;
+        text-align: center;
+        padding: 0 15px;
+    }
+
+    .feature-title {
+        margin-bottom: 10px;
+    }
+
+    .feature-description {
+        color: #666;
+        line-height: 1.5;
+    }
+
+    .slick-prev:before,
+    .slick-next:before {
+        color: #000;
+    }
+
+    .slick-dots li button:before {
+        font-size: 12px;
+    }
+
+    .no-features {
+        text-align: center;
+        padding: 40px 0;
+    }
+</style>

@@ -1,0 +1,547 @@
+<footer class="contaniner-foo">
+  <div class="logo-copa-container">
+    <div class="logo-copa">
+      <img src="https://cdn.shopify.com/s/files/1/0683/8442/4244/files/Logo_CopaWhite.png?v=1698787705" alt="">
+      <img src="https://cdn.shopify.com/s/files/1/0683/8442/4244/files/Logo_CopaWhite.png?v=1698787705" alt="">
+      <img src="https://cdn.shopify.com/s/files/1/0683/8442/4244/files/Logo_CopaWhite.png?v=1698787705" alt="">
+      <img src="https://cdn.shopify.com/s/files/1/0683/8442/4244/files/Logo_CopaWhite.png?v=1698787705" alt="">
+      <img src="https://cdn.shopify.com/s/files/1/0683/8442/4244/files/Logo_CopaWhite.png?v=1698787705" alt="">
+      <!-- Duplicate the images to create an infinite loop effect -->
+      <img src="https://cdn.shopify.com/s/files/1/0683/8442/4244/files/Logo_CopaWhite.png?v=1698787705" alt="">
+      <img src="https://cdn.shopify.com/s/files/1/0683/8442/4244/files/Logo_CopaWhite.png?v=1698787705" alt="">
+      <img src="https://cdn.shopify.com/s/files/1/0683/8442/4244/files/Logo_CopaWhite.png?v=1698787705" alt="">
+      <img src="https://cdn.shopify.com/s/files/1/0683/8442/4244/files/Logo_CopaWhite.png?v=1698787705" alt="">
+      <img src="https://cdn.shopify.com/s/files/1/0683/8442/4244/files/Logo_CopaWhite.png?v=1698787705" alt="">
+    </div>
+  </div>
+
+  <div class="logo-copa-container-mobile">
+    <div class="logo-copa-mobile">
+      <img src="https://cdn.shopify.com/s/files/1/0683/8442/4244/files/Logo_CopaWhite.png?v=1698787705" alt="">
+    </div>
+  </div>
+  
+
+  <div class="footercus">
+    <div class="box-left">
+      <div class="box-left-container">
+        <p class="box-left-title">Volvamos al inicio.</p>
+        <p class="small-text">
+          Suscríbete y recibe los mejores tips,<br>
+          promociones, noticias, todo para mejorar<br>
+          tu juego.
+        </p>          
+      </div>
+      {% render 'newsletter-footer-form' %}
+      <p class="extra-small-text">Al suscribirte aceptas nuestro aviso de privacidad.</p>
+    </div>
+    <div class="box-right">
+      <div class="box-1">
+        <span class="menu-social">MENU</span>
+        <a href="/collections/all">
+          <li>Productos</li>
+        </a>
+        <a href="/pages/nosotros">
+          <li>Nosotros</li>
+        </a>
+        <a href="/pages/contacto">
+          <li>Contacto</li>
+        </a>
+      </div>
+      <div class="box-2">
+        <span class="menu-social">REDES SOCIALES</span>
+        <a class="text-decoration_none" href="https://www.instagram.com/copapadel/" target="_blank">
+          <li class="item">
+            {% render 'icon-instagram' %}
+            <span class="item-text">Instagram</span>
+          </li>
+        </a>
+        {%- comment -%}      
+          <li class="item">
+            {% render 'icon-youtube' %}
+            <span class="item-text">Youtube</span>
+          </li>
+          <li class="item">
+            {% render 'icon-tiktok' %}
+            <span class="item-text">TikTok</span>
+          </li>
+        {%- endcomment -%}
+      </div>
+    </div>
+    <div class="box-soporte-mobile">
+      <span class="menu-social">SOPORTE</span>
+      <a href="/pages/terminos">
+        <li>Términos y Condiciones</li>
+      </a>  
+      <a href="/pages/privacidad">
+        <li>Aviso de Privacidad</li>
+      </a>
+      <a href="/pages/envios">
+        <li>Envíos</li>
+      </a>  
+      <a href="/pages/reembolso">
+        <li>Políticas de Reembolso</li>
+      </a>
+    </div>
+  </div>
+  <div class="terms">
+    <a href="/pages/terminos">
+      <li>Términos y Condiciones</li>
+    </a>
+    <a href="/pages/privacidad">
+      <li>Aviso de Privacidad</li>
+    </a>
+    <a href="/pages/envios">    
+      <li>Envíos</li>
+    </a>
+    <a href="/pages/reembolso">
+      <li>Políticas de Reembolso</li>
+    </a>    
+  </div>
+  <div class="reservs">
+    <p>Copa Corcuera Padel 1969®</p>
+  </div>
+</footer>
+
+<style>
+
+  .logo-copa-container {
+    overflow: hidden;
+    width: 100%;
+  }
+
+
+  @media screen and (max-width: 749px) {
+    .logo-copa-container {
+      display: none;
+    }
+    .logo-copa-container-mobile {
+      display: block;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+
+    .logo-copa-container {
+    display: block; 
+    }
+    .logo-copa-container-mobile {
+      display: none;
+    }
+  }
+  
+  .logo-copa {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: space-between;
+    padding: 80px 0 80px 0;
+    animation: scroll 40s linear infinite;
+    white-space: nowrap;
+    transition: transform 1s ease;
+  }
+
+
+  .logo-copa-mobile {
+    padding: 31px 19px;
+  }
+
+  .logo-copa-mobile img {
+    width: 100%;
+  }
+
+  .logo-copa img {
+    width: 525px;
+    margin-right: 100px;
+  }
+
+    @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%); /* Adjust to match duplicated images */
+    }        
+  }
+
+  @media screen and (max-width: 750px) {
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(0); 
+      }        
+    }
+  }
+  
+  .contaniner-foo .box-left .extra-small-text {
+    margin-top: 20px;
+    font-size: 18px;
+    text-align: left;
+  }
+
+  .box-left-container {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contaniner-foo .box-right {
+    color: #ffffff;
+  }
+
+  .contaniner-foo .box-right .box-1 {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .contaniner-foo .box-right .box-1 a {
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  .contaniner-foo .box-right .box-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+
+  .contaniner-foo .box-right .box-2 .item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .contaniner-foo .box-right .box-2 .item .item-text {
+    font-family: "ABCfina" !important;
+    color: #ffffff;
+    font-size: 25px;
+  }
+
+  .menu-social {
+    font-size: 25px;
+    font-family: "ABCfina" !important;
+    color: #ffffff;
+  }
+  .box-soporte-mobile a {
+    text-decoration: none;
+    color: #ffffff;
+  }
+  @media screen and (min-width: 750px) {
+    .box-soporte-mobile {
+      display: none;
+    }
+
+  }
+
+  @media screen and (max-width: 749px) {
+
+    .box-soporte-mobile {
+      #f8b0b8
+      display: flex;
+      flex-direction: column;
+      gap: 18px;      
+      padding: 50px 18px 50px 18px;
+    }
+
+    .box-soporte-mobile li {
+      cursor: pointer;
+      list-style: none;
+      font-size: 13px;
+    }
+
+
+    .contaniner-foo .box-right .box-2 {
+      gap: 12px;
+    }
+
+
+    .menu-social {
+      font-size: 14px;      
+    }
+
+    .footercus .box-right li {
+      font-size: 14px !important;
+    }
+
+    .contaniner-foo .box-right .box-2 .item svg {
+      width: 21px !important;
+    }
+
+    .contaniner-foo .box-right .box-2 .item .item-text {
+      font-size: 13px !important;
+    }
+
+
+
+  }
+
+  .footercus .box-left .inputs input {
+    border-radius: 13px 0 0 13px;
+    font-family: "ABCfina" !important;
+    padding: 25px 50px;
+    border: none;
+    width: 60%;
+  }
+
+
+
+
+  @media screen and (max-width: 767px) {
+
+
+    .footercus .box-left p {
+      font-size: 12px !important;
+    }
+
+    .contaniner-foo .footercus {
+      flex-direction: column !important;      
+    }
+
+    .contaniner-foo .footercus .box-left {
+      width: 100% !important;
+      padding: 20px 18px;
+      border-right: 1px solid transparent;
+    }
+
+    .contaniner-foo .footercus .box-right {
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      width: 100%;
+      padding: 50px 18px !important;
+      gap: 24px;
+      justify-content: space-between;
+      flex-direction: row;
+    }
+
+
+    .contaniner-foo .footercus .box-left .small-text {
+      font-size: 12px !important
+    }
+
+    .contaniner-foo .footercus .box-left .extra-small-text {
+      font-size: 12px !important;
+      text-align: center;
+    }
+
+    .footercus .box-left .inputs {
+      display: flex;
+    }
+
+
+    .footercus .box-left .inputs input {
+      padding: 25px 15px !important;
+      width: 60% !important;
+    }
+
+    .footercus .box-left .inputs button {
+      padding: 25px 15px !important;
+    }
+
+
+    .contaniner-foo .terms {
+      flex-direction: column;
+      padding: 50px 18px !important;
+      display: none;
+    }
+
+
+
+    .contaniner-foo .reservs {
+      padding: 18px !important;
+    }
+  }
+
+  .contaniner-foo {
+    font-family: "ABCfina" !important;
+    margin: 25px 25px;
+    border-radius: 13px;
+    background-color: #FF9015;
+  }
+
+  @media screen and (max-width: 750px) {
+
+    .contaniner-foo {
+      margin: 25px 6px;
+    }
+
+  }
+
+  .footercus {
+    border-top: 1px solid rgba(255,255,255, 0.25);
+    border-bottom: 1px solid rgba(255,255,255, 0.25);
+    gap: 0;
+    display: flex;    
+    color: #ffffff;
+  }
+
+  .footercus .box-left {
+    padding: 50px 0 50px 35px;    
+    border-right: 1px solid rgba(255,255,255, 0.25);
+    display: flex;        
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 50%;
+  }
+
+
+  @media screen and (min-width: 750px) {
+    padding: 50px 0 50px 25px;
+  }
+
+  .footercus .box-left p {
+    font-size: 25px;
+    margin: 0;
+    line-height: normal;
+  }
+
+
+  .footercus .box-left .inputs input {
+    border-radius: 13px 0 0 13px;
+    font-family: "ABCfina" !important;
+    padding: 25px 50px;
+    border: none;
+
+  }
+
+  .footercus .box-left .inputs button {
+    cursor: pointer;
+    border-radius: 0 13px 13px 0;
+    font-family: "ABCfina" !important;
+    padding: 25px 50px;
+    background-color: white;
+    border: none;
+
+  }
+
+  .footercus .box-right {
+    padding: 50px 100px;
+    justify-content: flex-start;
+    width: 50%;
+    display: flex;    
+  }
+
+
+  @media only screen and (min-width: 1440px) {
+    .footercus .box-right {
+      gap: 170px
+    }
+
+  }
+
+  @media only screen and (max-width: 1024px) {
+
+    .footercus .box-left {
+      padding: 50px 35px;
+    }
+
+    .footercus .box-left .box-left-container .small-text {
+      font-size: 20px;
+    }
+
+    .contaniner-foo .box-left .extra-small-text {
+      font-size: 14px;
+    }
+
+    .footercus .box-right {
+      gap: 50px;
+      padding: 50px 35px;
+    }
+
+    .footercus .box-right li {
+      font-size: 18px;
+    }
+    .contaniner-foo .box-right .box-2 .item .item-text {
+      font-size: 18px;
+    }
+
+    .newsletter-footer-container .newsletter-form .newsletter-form__field-wrapper .field input {
+      font-size: 14px;
+    }
+
+    .newsletter-footer-container .newsletter-form .newsletter-form__field-wrapper .field button {
+      font-size: 12px;
+    }
+
+    .terms {
+      align-items: center;
+    }
+
+    .terms a {
+      font-size: 20px;     
+    }
+
+    .reservs p {
+      font-size: 20px;
+    }
+  }
+
+
+  @media only screen and (max-width: 982px) {
+    .footercus .box-right {
+      flex-direction: column;
+    }
+
+  }
+
+  .footercus .box-right h3 {
+    font-size: 21px;
+    font-family: "ABCfina" !important;
+  }
+
+  .footercus .box-right li {
+    font-size: 18px;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .terms {
+    border-bottom: 1px solid rgba(255,255,255, 0.25);
+    padding: 50px;
+    display: flex;
+    gap: 50px;
+    font-size: 25px;
+  }
+
+  .terms li {
+    cursor: pointer;
+    list-style: none;
+  }
+
+
+  .terms a {
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  .reservs {
+    padding: 20px 50px;
+    color: #ffffff;
+    font-size: 23px;
+  }
+
+  .reservs p {
+    margin-bottom: 0;
+  }
+
+  
+  @media screen and (max-width: 767px) {
+    .reservs p {
+      font-size: 11px;
+    } 
+  }
+
+  .text-decoration_none {
+    text-decoration: none;
+    color: #ffffff;
+  }
+</style>
+
+{% schema %}
+{
+"name": "footer Custom"
+}
+{% endschema %}

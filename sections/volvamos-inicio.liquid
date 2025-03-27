@@ -1,0 +1,46 @@
+
+<link rel="stylesheet" href="{{ 'volvamos-inicio.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<div class="section-img-three">
+  <div class="box-img">
+    <img class="box-image-border" src="{{ section.settings.title_image | img_url: 'master' }}" width="100%" height="100%" alt="{{ section.settings.title | escape }}">
+  </div>
+  <div class="box-text align-left-mobile">
+    <h1 class="boxt-text-volvamos">{{ section.settings.title }}</h1>
+    <p class="boxt-text-volvamos-description">{{ section.settings.description }}</p>
+  </div>
+</div>
+
+{% schema %}
+    {
+      "name": "Volvamos Inicio",
+      "tag": "section",
+      "class": "section",
+      "presets": [
+        {
+          "name": "Volvamos Inicio",
+          "category": "Custom content"
+        }
+      ],
+      "settings": [
+        {
+          "type": "image_picker",
+          "label": "Title Image",
+          "id": "title_image"
+        },
+        {
+          "type": "text",
+          "label": "Title",
+          "id": "title",
+          "default": "VOLVAMOS AL INICIO"
+        },
+        {
+          "type": "textarea",
+          "label": "Description",
+          "id": "description",
+          "default": "\"A seguir innovando, a la esencial del padel, al inicio del juego, a inspirar nuevas generaciones de jugadores reedescubriendo el pasado y construyendo el futuro del padel”"
+        }
+      ]
+    }
+    {% endschema %}
+    

@@ -1,0 +1,629 @@
+{{ 'base.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+{{ 'slick-theme.css' | asset_url | stylesheet_tag }}
+{{ 'slick.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'slick.min.js' | asset_url }}"></script>
+
+{% schema %}
+{
+  "name": "Copa Product Showcase",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Featured Products"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "full",
+          "label": "Full Width"
+        },
+        {
+          "value": "contained",
+          "label": "Contained"
+        }
+      ],
+      "default": "full"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_slide",
+      "name": "Product Slide",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "swatch_image",
+          "label": "Swatch Image"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product Name"
+        },
+        {
+          "type": "text",
+          "id": "product_description",
+          "label": "Product Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Copa Product Showcase",
+    }
+  ]
+}
+{% endschema %}
+
+{%- assign product_form_id = 'quick-add-' | append: section.id | append: product.id -%}
+
+<div class="copa-product-showcase {% if section.settings.layout == 'contained' %}container{% endif %}">
+  <div class="mobile-carrousel">
+    {% for block in section.blocks %}
+      {% if block.type == 'product_slide' %}
+        {% assign product = block.settings.product %}
+        <div class="copa-model-slide" data-index="{{ forloop.index0 }}">
+          {% if block.settings.product_image %}
+            {{
+              block.settings.product_image
+              | img_url: 'master'
+              | img_tag: block.settings.product.title, 'copa-model-image'
+            }}
+          {% else %}
+            {{ 'image' | placeholder_svg_tag: 'copa-model-image placeholder' }}
+          {% endif %}
+          <div class="copa-product-swatch">
+            {% if block.settings.swatch_image %}
+              {{
+                block.settings.swatch_image
+                | img_url: 'master'
+                | img_tag: block.settings.product_name, 'copa-swatch-image'
+              }}
+            {% endif %}
+          </div>
+
+          <div class="copa-product-info-mobile">
+            <h2 class="copa-product-title">{{ product.title }}</h2>
+            <p class="copa-product-subtitle">{{ block.settings.product_description }}</p>
+            <product-form class="product-form">
+              <div class="product-form__error-message-wrapper" role="alert" hidden>
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  role="presentation"
+                  class="icon icon-error"
+                  viewBox="0 0 13 13"
+                >
+                  <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
+                  <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
+                  <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
+                  <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
+                </svg>
+                <span class="product-form__error-message"></span>
+              </div>
+
+              {%- form 'product',
+                product,
+                id: product_form_id,
+                class: 'form',
+                novalidate: 'novalidate',
+                data-type: 'add-to-cart-form'
+              -%}
+                <input
+                  type="hidden"
+                  name="id"
+                  value="{{ product.selected_or_first_available_variant.id }}"
+                  disabled
+                >
+                <div class="product-form__buttons">
+                  <!-- Inyección del color dinámico en el hover -->
+                  {% if product.metafields.custom.color %}
+                    <style>
+                      .product-form__submit.button--primary:hover,
+                      .product-form__submit.button--secondary:hover {
+                        background-color: {{ product.metafields.custom.color }};
+                      }
+                    </style>
+                  {% endif %}
+
+                  <button
+                    type="submit"
+                    name="add"
+                    class="product-form__submit button button--full-width {% if block.settings.show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+                    {% if product.selected_or_first_available_variant.available == false %}
+                      disabled
+                    {% endif %}
+                  >
+                    {% if product.compare_at_price > product.price and product.available %}
+                      <div style="display: flex; gap: 5px;">
+                        <span style="text-decoration: line-through">
+                          {{- product.compare_at_price | money_without_trailing_zeros -}}
+                        </span>
+                        <span>{{ product.price | money_without_trailing_zeros }}</span>
+                      </div>
+                    {% elsif product.selected_or_first_available_variant.available %}
+                      Comprar - {{ product.price | money_without_trailing_zeros }}
+                    {%- else -%}
+                      {{ 'products.product.sold_out' | t }}
+                    {%- endif -%}
+                    <div class="loading-overlay__spinner hidden">
+                      <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        role="presentation"
+                        class="spinner"
+                        viewBox="0 0 66 66"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                      </svg>
+                    </div>
+                  </button>
+
+                  {% comment %}
+                    {%- if block.settings.show_dynamic_checkout -%}
+                      {{ form | payment_button }}
+                    {%- endif -%}
+                  {% endcomment %}
+                </div>
+              {%- endform -%}
+            </product-form>
+          </div>
+
+          <div class="copa-pagination">
+            <span class="copa-current-slide">{{ forloop.index }}</span>/<span class="copa-total-slides">
+              {{- section.blocks.size -}}
+            </span>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="copa-product-grid-container">
+    <div class="left-carrousel">
+      {% for block in section.blocks %}
+        {% if block.type == 'product_slide' %}
+          <div class="copa-model-slide" data-index="{{ forloop.index0 }}">
+            {% if block.settings.product_image %}
+              {{
+                block.settings.product_image
+                | img_url: 'master'
+                | img_tag: block.settings.product.title, 'copa-model-image'
+              }}
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'copa-model-image placeholder' }}
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="copa-product-details">
+      <div class="right-carrousel">
+        {% for block in section.blocks %}
+          {% if block.type == 'product_slide' %}
+            {% assign product = block.settings.product %}
+            <div class="copa-product-slide" data-index="{{ forloop.index0 }}">
+              <div class="copa-product-swatch">
+                {% if block.settings.swatch_image %}
+                  {{
+                    block.settings.swatch_image
+                    | img_url: 'master'
+                    | img_tag: block.settings.product_name, 'copa-swatch-image'
+                  }}
+                {% endif %}
+              </div>
+
+              <div class="copa-product-info">
+                <h2 class="copa-product-title">{{ product.title }}</h2>
+                <p class="copa-product-subtitle">{{ block.settings.product_description }}</p>
+                <product-form class="product-form">
+                  <div class="product-form__error-message-wrapper" role="alert" hidden>
+                    <svg
+                      aria-hidden="true"
+                      focusable="false"
+                      role="presentation"
+                      class="icon icon-error"
+                      viewBox="0 0 13 13"
+                    >
+                      <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
+                      <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
+                      <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
+                      <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
+                    </svg>
+                    <span class="product-form__error-message"></span>
+                  </div>
+
+                  {%- form 'product',
+                    product,
+                    id: product_form_id,
+                    class: 'form',
+                    novalidate: 'novalidate',
+                    data-type: 'add-to-cart-form'
+                  -%}
+                    <input
+                      type="hidden"
+                      name="id"
+                      value="{{ product.selected_or_first_available_variant.id }}"
+                      disabled
+                    >
+                    <div class="product-form__buttons">
+                      <!-- Inyección del color dinámico en el hover -->
+                      {% if product.metafields.custom.color %}
+                        <style>
+                          .product-form__submit.button--primary:hover,
+                          .product-form__submit.button--secondary:hover {
+                            background-color: {{ product.metafields.custom.color }};
+                          }
+                        </style>
+                      {% endif %}
+
+                      <button
+                        type="submit"
+                        name="add"
+                        class="product-form__submit button button--full-width {% if block.settings.show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+                        {% if product.selected_or_first_available_variant.available == false %}
+                          disabled
+                        {% endif %}
+                      >
+                        {% if product.compare_at_price > product.price and product.available %}
+                          <div style="display: flex; gap: 5px;">
+                            <span style="text-decoration: line-through">
+                              {{- product.compare_at_price | money_without_trailing_zeros -}}
+                            </span>
+                            <span>{{ product.price | money_without_trailing_zeros }}</span>
+                          </div>
+                        {% elsif product.selected_or_first_available_variant.available %}
+                          Comprar - {{ product.price | money_without_trailing_zeros }}
+                        {%- else -%}
+                          {{ 'products.product.sold_out' | t }}
+                        {%- endif -%}
+                        <div class="loading-overlay__spinner hidden">
+                          <svg
+                            aria-hidden="true"
+                            focusable="false"
+                            role="presentation"
+                            class="spinner"
+                            viewBox="0 0 66 66"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                          </svg>
+                        </div>
+                      </button>
+
+                      {% comment %}
+                        {%- if block.settings.show_dynamic_checkout -%}
+                          {{ form | payment_button }}
+                        {%- endif -%}
+                      {% endcomment %}
+                    </div>
+                  {%- endform -%}
+                </product-form>
+              </div>
+
+              <div class="copa-pagination">
+                <span class="copa-current-slide">{{ forloop.index }}</span>/<span class="copa-total-slides">
+                  {{- section.blocks.size -}}
+                </span>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+      .quick-add__submit {
+        height: 64px;
+      }
+      .copa-product-showcase {
+        width: 100%;
+        margin: 0 auto;
+        font-family: ABCfina;
+        padding: 36px 0;
+      }
+
+      .copa-product-grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 25px;
+        overflow: hidden;
+      }
+
+      .copa-product-models {
+        position: relative;
+        overflow: hidden;
+        background-color: #f5f5f5;
+        width: 100%;
+        height: 100%;
+        min-height: 100%;
+        border-radius: 13px;
+      }
+
+      .copa-model-slide {
+        display: none;
+        width: 100%;
+        height: 100%;
+      }
+
+      .copa-model-slide.active {
+        display: block;
+      }
+
+      .copa-model-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 13px;
+      }
+
+      .copa-product-details {
+        display: flex;
+        padding: 2rem;
+        flex-direction: column;
+        justify-content: center;
+        max-width: 100%;
+        width: 100%;
+        min-width: 100%;
+        background-color: #f6f6f8;
+        border-radius: 13px;
+    }
+      }
+
+      .copa-product-carousel {
+        position: relative;
+      }
+
+      .copa-product-slide {
+        display: none;
+      }
+
+      .copa-product-slide.active {
+        display: block;
+      }
+
+      .copa-product-swatch {
+        display: grid;
+
+        justify-items: center;
+        padding-bottom: 2rem;
+      }
+
+      .copa-swatch-image {
+        max-width: 60%;
+        height: auto;
+      }
+
+      .copa-product-reviews {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-bottom: 1rem;
+      }
+
+      .copa-stars {
+        color: #999;
+      }
+
+      .copa-review-count {
+        color: #565656;
+      }
+
+      .copa-product-title {
+        text-transform: uppercase;
+        font-weight: bold;
+        padding-bottom: 0.5rem;
+        letter-spacing: 0.05em;
+        margin: 0;
+      }
+
+      .copa-product-subtitle {
+        color: #565656;
+        padding-bottom: 2rem;
+        margin: 0;
+      }
+
+      .copa-button {
+        display: inline-block;
+        background-color: #fff;
+        color: #333;
+        border: 1px solid #ddd;
+        padding: 0.75rem 1.5rem;
+        border-radius: 2rem;
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: all 0.3s;
+      }
+
+      .copa-button:hover {
+        background-color: #f0f0f0;
+      }
+
+      .copa-pagination {
+        padding-top: 3rem;
+        text-align: right;
+        font-weight: bold;
+        font-size: 3rem;
+        color: #565656;
+      }
+
+
+  @media (max-width: 480px) {
+
+    .copa-product-info-mobile {
+      padding: 2rem;
+    }
+
+    .copa-pagination {
+      padding: 0 1rem !important;
+    }
+
+          .slick-slide {
+        border-radius: 13px;
+        background-color: #f6f6f8;
+            margin-right: 10px;''
+      }
+
+    .copa-product-grid-container {
+          display: none;
+        }
+
+    .mobile-carrousel {
+      display: grid;
+    }
+
+  }
+
+  @media (min-width: 481px) {
+
+
+
+    .copa-product-grid-container {
+          display: grid;
+        }
+
+    .mobile-carrousel {
+      display: none !important;
+    }
+
+      .copa-model-image {
+        border-radius: 13px 13px 0 0;
+      }
+
+  }
+
+      @media (max-width: 768px) {
+
+
+
+        .copa-product-showcase {
+          min-width: 100%;
+        }
+        .copa-product-grid-container {
+          grid-template-columns: 1fr;
+          gap: 0 !important;
+          min-width: 100%;
+        }
+
+        .copa-product-swatch
+        {
+          display: none;
+        }
+
+        .copa-swatch-image {
+              max-width: 70%;
+        }
+
+        .copa-model-image {
+          aspect-ratio: 1 / 1;
+        }
+
+        .copa-product-models {
+          border-radius: 13px 13px 0 0;
+        }
+
+        .copa-product-details {
+          padding: 1.5rem;
+          border-radius: 0 0 13px 13px;
+          overflow: initial !important;
+        }
+
+        .slick-slider {
+          min-width: 100%;
+        }
+
+      }
+
+    /* Make sure .copa-product-details is position: relative
+     so .copa-product-carousel's absolute nav sits inside */
+  .copa-product-details {
+    position: relative;
+    overflow: hidden; /* optional, to hide any overflow */
+  }
+
+  /* Position .copa-product-carousel nav absolutely */
+  .copa-product-carousel {
+    position: relative; /* anchor for nav */
+    width: 100%;
+  }
+
+
+
+  .copa-product-details {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .copa-product-carousel {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .slick-track, .slick-list  {
+    height: 100% !important;
+  }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      initShowCaseProductsCopa();
+    });
+
+    function initShowCaseProductsCopa() {
+
+    $('.mobile-carrousel').slick({
+    dots: false,
+    infinite: false,
+    speed: 300,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  });
+
+    $('.left-carrousel').slick({
+    dots: false,
+    infinite: false,
+    arrows: false,
+    speed: 300,
+    asNavFor: '.right-carrousel',
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  });
+
+    $('.right-carrousel').slick({
+    dots: false,
+    infinite: false,
+    arrows: true,
+    speed: 300,
+    asNavFor: '.left-carrousel',
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  });
+
+    }
+</script>

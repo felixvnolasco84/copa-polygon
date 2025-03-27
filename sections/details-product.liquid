@@ -1,0 +1,108 @@
+<link rel="stylesheet" href="{{ 'details-product.css' | asset_url }}" media="print"
+      onload="this.media='all'">
+
+<div class="custom-section-details-product">
+  <div class="image-container">
+    <div class="image-container-items-container">
+        <div class="item img-middle">
+            <img class="img" src="{{ section.settings.image_item_1 | img_url: '250x250' }}" alt="Custom Image" />
+        </div>
+        <div class="item">
+            <img class="img" src="{{ section.settings.image_item_2 | img_url: '250x250' }}" alt="Custom Image" />        
+        </div>
+        <div class="item img-bottom">
+            <img class="img" src="{{ section.settings.image_item_3 | img_url: '250x250' }}" alt="Custom Image" />         
+        </div>
+    </div>
+    <img class="image-container-image" src="{{ section.settings.image_setting | img_url: '1200x1200' }}" alt="Custom Image" />
+  </div>
+  <div class="text-container">
+    <div class="text-container-item">
+        <p class="title">{{ section.settings.text_title_1 }}</p>
+        <p class="description">{{ section.settings.text_description_1 }}</p>
+    </div>
+    <div class="text-container-item">
+        <p class="title">{{ section.settings.text_title_2 }}</p>
+        <p class="description">{{ section.settings.text_description_2 }}</p>
+    </div>
+    <div class="text-container-item">
+        <p class="title">{{ section.settings.text_title_3 }}</p>
+        <p class="description">{{ section.settings.text_description_3 }}</p>
+    </div>
+  </div>
+</div> 
+
+{% schema %}
+    {
+      "name": "Details Product",
+      "settings": [
+        {
+          "type": "image_picker",
+          "label": "Main Image",
+          "id": "image_setting"
+        },
+        {
+          "type": "image_picker",
+          "label": "Image Item 1",
+          "id": "image_item_1"
+        },
+        {
+          "type": "image_picker",
+          "label": "Image Item 2",
+          "id": "image_item_2"
+        },
+        {
+          "type": "image_picker",
+          "label": "Image Item 3",
+          "id": "image_item_3"
+        },
+        {
+          "type": "text",
+          "label": "Title 1",
+          "id": "text_title_1"
+        },
+        {
+          "type": "text",
+          "label": "Description 1",
+          "id": "text_description_1"
+        },
+        {
+          "type": "text",
+          "label": "Title 2",
+          "id": "text_title_2"
+        },
+        {
+          "type": "text",
+          "label": "Description 2",
+          "id": "text_description_2"
+        },
+        {
+          "type": "text",
+          "label": "Title 3",
+          "id": "text_title_3"
+        },
+        {
+          "type": "text",
+          "label": "Description 3",
+          "id": "text_description_3"
+        }
+      ],
+      "presets": [
+        {
+          "name": "Details Product",
+          "settings": {
+            "image_setting": "",
+            "image_item_1": "",
+            "image_item_2": "",
+            "image_item_3": "",            
+            "text_title_1": "Your default text here.",
+            "text_description_1": "Your default text here.",
+            "text_title_2": "Your default text here.",
+            "text_description_2": "Your default text here.",
+            "text_title_3": "Your default text here.",
+            "text_description_3": "Your default text here."
+          }
+        }
+      ]
+    }
+{% endschema %}

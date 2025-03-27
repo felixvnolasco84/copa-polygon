@@ -1,0 +1,169 @@
+<div class="izquierda">
+    <img class="imagen-principal imagen-principal-activa" src="{{ card_product.featured_media | img_url: '1712x1712' }}"
+        id="imagen-principal-1"/> 
+    <div class="mini-galeria">
+        <img class="galeria-imagen" producto="1" src="{{ card_product.media[1] | img_url: '1712x1712', crop: 'bottom' }}">
+        </img>
+        <img class="galeria-imagen" producto="1" src="{{ card_product.media[2] | img_url: '1712x1712', crop: 'bottom' }}">
+        </img>
+    </div>
+    </img>
+</div> 
+    <div class="opciones">
+        <div class="opcion opcion-activa" producto="1" id="opcion-1">
+            {% for productTitle in product_titles %}
+            <div class="opcion-name">{{ productTitle | escape }}</div>
+            {% endfor %}
+
+            {% comment %}
+            <div class="opcion-color" style="background-color: #a5e5d9"></div>
+            {% endcomment %}
+        </div>
+    </div>
+    <div class="opcion-info opcion-info-activa" id="opcion-info-1">
+        <div class="opcion-info-titulo">
+            <div class="opcion-info-nombre">
+                <div class="opcion-info-color" style="background-color: #a5e5d9"></div>
+                {{ card_product.title | escape }}
+            </div>
+            <div class="opcion-info-precio">{{ card_product.price | money_without_trailing_zeros }}</div>
+        </div>
+
+
+        <div class="opcion-info-contenido">
+            {{ card_product.description }}
+            <div class="opcion-comprar-boton">
+                <div class="quick-add no-js-hidden">
+   
+                    {%- assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id -%}
+                    {%- if card_product.variants.size == 1 -%}
+                    <product-form>
+                        {%- form 'product',
+                        card_product,
+                        id: product_form_id,
+                        class: 'form',
+                        novalidate: 'novalidate',
+                        data-type: 'add-to-cart-form'
+                        -%}
+
+                        <input type="hidden" name="id" value="{{ card_product.selected_or_first_available_variant.id }}"
+                            disabled>
+                          
+                        <button id="{{ product_form_id }}-submit" type="submit" name="add"
+                            class="quick-add__submit button button--full-width button--secondary" aria-haspopup="dialog"
+                            aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
+                            aria-live="polite" data-sold-out-message="true" 
+                          {% if
+                            card_product.selected_or_first_available_variant.available==false %} disabled {% endif %}>
+                            <span>
+                                {%- if card_product.selected_or_first_available_variant.available -%}
+                                Comprar - {{ card_product.price | money_without_trailing_zeros }}
+                                {%- else -%}
+                                {{ 'products.product.sold_out' | t }}
+                                {%- endif -%}
+                            </span>
+                            <span class="sold-out-message hidden">
+                                {{ 'products.product.sold_out' | t }}
+                            </span>
+                            <div class="loading-overlay__spinner hidden">
+                                <svg aria-hidden="true" focusable="false" role="presentation" class="spinner"
+                                    viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                                </svg>
+                            </div>
+                        </button>
+                      
+                        {%- endform -%}
+                    </product-form>
+                    {%- else -%}
+                    <modal-opener data-modal="#QuickAdd-{{ card_product.id }}">
+                        <button id="{{ product_form_id }}-submit" type="submit" name="add"
+                            class="quick-add__submit button button--full-width button--secondary" aria-haspopup="dialog"
+                            aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
+                            data-product-url="{{ card_product.url }}">
+                            {{ 'products.product.choose_options' | t }}
+                            <div class="loading-overlay__spinner hidden">
+                                <svg aria-hidden="true" focusable="false" role="presentation" class="spinner"
+                                    viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                                </svg>
+                            </div>
+                        </button>
+                    </modal-opener>
+                    <quick-add-modal id="QuickAdd-{{ card_product.id }}" class="quick-add-modal">
+                        <div role="dialog"
+                            aria-label="{{ 'products.product.choose_product_options' | t: product_name: card_product.title | escape }}"
+                            aria-modal="true" class="quick-add-modal__content global-settings-popup" tabindex="-1">
+                            <button id="ModalClose-{{ card_product.id }}" type="button" class="quick-add-modal__toggle"
+                                aria-label="{{ 'accessibility.close' | t }}">
+                                {% render 'icon-close' %}
+                            </button>
+                            <div id="QuickAddInfo-{{ card_product.id }}" class="quick-add-modal__content-info"></div>
+                        </div>
+                    </quick-add-modal>
+                    {%- endif -%}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="opcion-info" id="opcion-info-2">
+        <div class="opcion-info-titulo">
+            <div class="opcion-info-nombre">
+                <div class="opcion-info-color" style="background-color: #ffb1b9"></div>
+                MARBELLA
+            </div>
+            <div class="opcion-info-precio">$1,999.00</div>
+        </div>
+        <div class="opcion-info-contenido">
+            <p>Siente la esencia del pádel en cada golpe con la raqueta Acapulco.</p>
+            <p>
+                La raqueta Acapulco, en homenaje al lugar donde nació el pádel, tiene un equilibrio perfecto y una
+                superficie amplia de golpeo. Te permitirá disfrutar de una precisión y potencia incomparables en la
+                cancha.
+            </p>
+            <div class="opcion-comprar-boton">
+                <button>COMPRAR - $1,999.00</button>
+            </div>
+        </div>
+    </div>
+    <div class="opcion-info" id="opcion-info-3">
+        <div class="opcion-info-titulo">
+            <div class="opcion-info-nombre">
+                <div class="opcion-info-color" style="background-color: #fe8e05"></div>
+                COPACABANA
+            </div>
+            <div class="opcion-info-precio">$1,999.00</div>
+        </div>
+        <div class="opcion-info-contenido">
+            <p>Siente la esencia del pádel en cada golpe con la raqueta Acapulco.</p>
+            <p>
+                La raqueta Acapulco, en homenaje al lugar donde nació el pádel, tiene un equilibrio perfecto y una
+                superficie amplia de golpeo. Te permitirá disfrutar de una precisión y potencia incomparables en la
+                cancha.
+            </p>
+            <div class="opcion-comprar-boton">
+                <button>COMPRAR - $1,999.00</button>
+            </div>
+        </div>
+    </div>
+    <div class="opcion-info" id="opcion-info-4">
+        <div class="opcion-info-titulo">
+            <div class="opcion-info-nombre">
+                <div class="opcion-info-color" style="background-color: #d0cfcd"></div>
+                PUNTA DEL ESTE
+            </div>
+            <div class="opcion-info-precio">$1,999.00</div>
+        </div>
+        <div class="opcion-info-contenido">
+            <p>Siente la esencia del pádel en cada golpe con la raqueta Acapulco.</p>
+            <p>
+                La raqueta Acapulco, en homenaje al lugar donde nació el pádel, tiene un equilibrio perfecto y una
+                superficie amplia de golpeo. Te permitirá disfrutar de una precisión y potencia incomparables en la
+                cancha.
+            </p>
+            <div class="opcion-comprar-boton">
+                <button>COMPRAR - $1,999.00</button>
+            </div>
+        </div>
+    </div>
+</div>

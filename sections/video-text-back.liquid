@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="{{'video-text.scss' | asset_url }}" media="print" onload="this.media='all'">
+
+
+<div class="section-video">
+  <div class="box-text">
+    <div class="title">
+      {{ section.settings.title }}
+    </div>
+    <div class="description">
+      {{ section.settings.description }}
+    </div>
+    {% comment %} <a href="/pages/nosotros">LEER MÁS</a> {% endcomment %}
+  </div>
+  <div class="box-video">
+    <video class="video" loop autoplay preload="none" muted playsinline
+      src="https://cdn.shopify.com/videos/c/o/v/cc4286198d694cf88165217f152f07b2.mp4" />
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "video Text right",
+  "tag": "section",
+  "class": "section",
+
+  "presets": [
+    {
+    "name": "Video Right",
+    "category": "Custom content"
+
+    }
+  ],
+    "settings": [
+      {
+      "type": "richtext",
+      "id": "title",
+      "label": "Titulo"
+      },
+      {
+      "type": "richtext",
+      "id": "description",
+      "label": "Descripcion"
+      },
+      {
+      "type": "url",
+      "id": "video_link",
+      "label": {
+          "en": "Video link"
+        }
+      }
+    ]
+}
+{% endschema %}

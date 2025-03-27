@@ -1,0 +1,596 @@
+  
+<div class="productos-showcase">
+  <div class="izquierda">
+    {%- for product in collections['Showcase'].products limit: 1-%}
+    <div class="imagen-principal imagen-principal-activa"
+      style="background-image: url({{ product.featured_media | img_url: '927x850' }});" id="{{product.title}}">
+      <div class="mini-galeria">
+        {%- for media in product.media limit: 4-%}  
+          <img class="galeria-imagen" src="{{ media | img_url: '927x850'}}" />
+        {%- endfor -%}           
+      </div>
+    </div>  
+    {%- endfor -%}
+    {%- for product in collections['Showcase'].products offset: 1-%}  
+    <div class="imagen-principal" style="background-image: url({{ product.featured_media | img_url: '927x850' }});"
+      id="{{product.title}}">
+      <div class="mini-galeria">
+        {%- for media in product.media limit: 4-%}  
+          <img class="galeria-imagen" src="{{ media | img_url: '927x850'}}">
+        {%- endfor -%}
+      </div>
+    </div>    
+    {%- endfor -%}
+  </div>
+  <div class="derecha">
+    <div class="opciones">
+      {% for product in collections['Showcase'].products limit: 1 %}
+      <div class="opcion opcion-activa" producto="{{product.title}}" id="{{product.title}}">
+        <div class="opcion-name">{{ product.title }}</div>
+        <div class="opcion-info-color" style="background-color: {{product.metafields.custom.color.value}}"></div>
+      </div>
+      {% endfor %}
+      {%- for product in collections['Showcase'].products offset:1-%}
+      <div onmouseover="this.style.backgroundColor='{{product.metafields.custom.color.value}}'" onmouseout="this.style.backgroundColor='#e2e2e2'" class="opcion" producto="{{product.title}}" id="{{product.title}}">
+        <div class="opcion-name">{{ product.title }}</div>
+        <div class="opcion-info-color" style="background-color: {{product.metafields.custom.color.value}}"></div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {%- for product in collections['Showcase'].products limit: 1-%}
+    <div class="opcion-info opcion-info-activa" id="info-{{product.title}}">
+      <div class="opcion-info-titulo">
+        <a href="{{ product.url }}" id="StandardCardNoMediaLink-{{ section_id }}-{{ product.id }}"
+          class="item full-unstyled-link"
+          style="width: fit-content;"
+          aria-labelledby="StandardCardNoMediaLink-{{ section_id }}-{{ product.id }} NoMediaStandardBadge-{{ section_id }}-{{ product.id }}">
+          
+          <div class="opcion-info-nombre">          
+            <div class="opcion-info-color" style="background-color: {{product.metafields.custom.color.value}}"></div>          
+            {{ product.title | escape }}
+          </div>
+          </a>
+        <div class="opcion-info-precio">{{ product.price | money_without_trailing_zeros }}</div>
+      </div>
+      <div class="opcion-info-contenido">
+        <div class="description"> 
+          {{ product.description }}
+        </div >
+
+                    {% if product.metafields.custom.color %}  
+                        <style>
+                          .quick-add__submit.button--primary:hover,
+                          .quick-add__submit.button--secondary:hover {
+                            background-color: {{ product.metafields.custom.color }}; 
+                            color: #fff;
+                          }
+                        </style>
+                      {% endif %}
+        
+        <div class="opcion-comprar-boton">
+          <div class="quick-add no-js-hidden">
+            {%- assign product_form_id = 'quick-add-' | append: section_id | append: product.id -%}
+            {%- if product.variants.size == 1 -%}
+            <product-form>
+              {%- form 'product',
+              product,
+              id: product_form_id,
+              class: 'form',
+              novalidate: 'novalidate',
+              data-type: 'add-to-cart-form'
+              -%}
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled>
+  
+              <button id="{{ product_form_id }}-submit" type="submit" name="add" 
+                class="quick-add__submit button button--full-width button--secondary" aria-haspopup="dialog"
+                aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ product.id }}"
+                aria-live="polite" data-sold-out-message="true" {% if
+                product.selected_or_first_available_variant.available==false %} disabled {% endif %}>
+                <div>
+                  {%- if product.selected_or_first_available_variant.available -%}
+                  {% comment %}
+                  {{ 'products.product.add_to_cart' | t }}
+                  {% endcomment %}                  
+                        <div style="display: flex; gap: 5px; justify-content: center;">
+                                <span style="text-decoration: line-through">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+                                Comprar - {{ product.price | money_without_trailing_zeros }}
+                            </div>
+                  {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                  {%- endif -%}
+                </div>
+                <div class="sold-out-message hidden">
+                  {{ 'products.product.sold_out' | t }}
+                </div>
+                <div class="loading-overlay__spinner hidden">
+                  <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                  </svg>
+                </div>
+              </button>
+              {%- endform -%}
+            </product-form>
+            {%- else -%}
+            <modal-opener data-modal="#QuickAdd-{{ product.id }}">
+              <button id="{{ product_form_id }}-submit" type="submit" name="add"
+                class="quick-add__submit button button--full-width button--secondary" aria-haspopup="dialog"
+                aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ product.id }}"
+                data-product-url="{{ product.url }}">
+                {{ 'products.product.choose_options' | t }}
+                <div class="loading-overlay__spinner hidden">
+                  <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                  </svg>
+                </div>
+              </button>
+            </modal-opener>
+            <quick-add-modal id="QuickAdd-{{ product.id }}" class="quick-add-modal">
+              <div role="dialog"
+                aria-label="{{ 'products.product.choose_product_options' | t: product_name: product.title | escape }}"
+                aria-modal="true" class="quick-add-modal__content global-settings-popup" tabindex="-1">
+                <button id="ModalClose-{{ product.id }}" type="button" class="quick-add-modal__toggle"
+                  aria-label="{{ 'accessibility.close' | t }}">
+                  {% render 'icon-close' %}
+                </button>
+                <div id="QuickAddInfo-{{ product.id }}" class="quick-add-modal__content-info"></div>
+              </div>
+            </quick-add-modal>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+    {%- endfor -%}
+
+    {%- for product in collections['Showcase'].products offset: 1-%}
+    <div class="opcion-info" id="info-{{product.title}}">
+      <div class="opcion-info-titulo">
+                <a href="{{ product.url }}" id="StandardCardNoMediaLink-{{ section_id }}-{{ product.id }}"
+                  class="item full-unstyled-link" style="width: fit-content;"
+                  aria-labelledby="StandardCardNoMediaLink-{{ section_id }}-{{ product.id }} NoMediaStandardBadge-{{ section_id }}-{{ product.id }}">
+                  <div class="opcion-info-nombre">
+                    <div class="opcion-info-color" style="background-color: {{product.metafields.custom.color.value}}"></div>
+                    {{ product.title | escape }}
+                  </div>
+                  </a>
+        
+        <div class="opcion-info-precio">{{ product.price | money_without_trailing_zeros }}</div>
+      </div>
+      <div class="opcion-info-contenido">
+        <div class="description">       
+          {{ product.description }}
+        </div>
+        <div class="opcion-comprar-boton">
+          <div class="quick-add no-js-hidden">
+            {%- assign product_form_id = 'quick-add-' | append: section_id | append: product.id -%}
+            {%- if product.variants.size == 1 -%}
+            <product-form>
+              {%- form 'product',
+              product,
+              id: product_form_id,
+              class: 'form',
+              novalidate: 'novalidate',
+              data-type: 'add-to-cart-form'
+              -%}
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled>
+              <button id="{{ product_form_id }}-submit" type="submit" name="add"
+                class="quick-add__submit button button--full-width button--secondary" aria-haspopup="dialog"
+                aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ product.id }}"
+                aria-live="polite" data-sold-out-message="true" {% if
+                product.selected_or_first_available_variant.available==false %} disabled {% endif %}>
+                <div>
+                  {% if product.compare_at_price > product.price and product.available %}                    
+                    
+
+                                              <div style="display: flex; gap: 5px; justify-content: center;">
+                                <span style="text-decoration: line-through">{{ product.compare_at_price | money_without_trailing_zeros
+                                    }}</span>
+                                <span>{{ product.price | money_without_trailing_zeros }}</span>
+                            </div>
+                    {% elsif product.selected_or_first_available_variant.available %}
+
+                                           <div style="display: flex; gap: 5px; justify-content: center;">
+                                <span style="text-decoration: line-through">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+                                Comprar - {{ product.price | money_without_trailing_zeros }}
+                            </div>
+                  {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                  {%- endif -%}
+                </div>
+                <span class="sold-out-message hidden">
+                  {{ 'products.product.sold_out' | t }}
+                </span>
+                <div class="loading-overlay__spinner hidden">
+                  <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                  </svg>
+                </div>
+              </button>
+              {%- endform -%}
+            </product-form>
+            {%- else -%}
+            <modal-opener data-modal="#QuickAdd-{{ product.id }}">
+              <button id="{{ product_form_id }}-submit" type="submit" name="add"
+                class="quick-add__submit button button--full-width button--secondary" aria-haspopup="dialog"
+                aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ product.id }}"
+                data-product-url="{{ product.url }}">
+                {{ 'products.product.choose_options' | t }}
+                <div class="loading-overlay__spinner hidden">
+                  <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                  </svg>
+                </div>
+              </button>
+            </modal-opener>
+            <quick-add-modal id="QuickAdd-{{ product.id }}" class="quick-add-modal">
+              <div role="dialog"
+                aria-label="{{ 'products.product.choose_product_options' | t: product_name: product.title | escape }}"
+                aria-modal="true" class="quick-add-modal__content global-settings-popup" tabindex="-1">
+                <button id="ModalClose-{{ product.id }}" type="button" class="quick-add-modal__toggle"
+                  aria-label="{{ 'accessibility.close' | t }}">
+                  {% render 'icon-close' %}
+                </button>
+                <div id="QuickAddInfo-{{ product.id }}" class="quick-add-modal__content-info"></div>
+              </div>
+            </quick-add-modal>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+    {%- endfor -%}
+  </div>
+</div>
+</div>
+<style>
+  .container {
+    width: 100%;
+  }
+
+
+  @media screen and (max-width: 896px) {
+    .productos-showcase {
+      display: none !important;
+    }
+  }
+
+  .productos-showcase {
+    font-family: "ABCcopa";
+    background-color: #f6f6f8;
+    display: flex;
+    overflow: hidden;
+    margin: 50px 0 50px 0;
+    border-radius: 13px;
+  }
+
+  .productos-showcase .izquierda {
+    width: 50%;
+  }
+
+
+  .productos-showcase .izquierda .img-container {
+    height: 100%;
+  }
+
+  .productos-showcase .derecha {
+    justify-content: space-evenly;
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    padding: 20px 60px;
+        overflow-y: auto;
+  }
+
+  .productos-showcase .imagen-principal {
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation-name: animacionEntrada;
+    animation-duration: 2s;
+  }
+
+  .productos-showcase .imagen-principal {
+    display: none;
+  }
+
+  .productos-showcase .imagen-principal-activa {
+    display: block;
+  }
+
+  .productos-showcase .opciones {
+    background-color: #e2e2e2;
+    width: 100%;
+    border-radius: 13px;
+  }
+
+  .productos-showcase .opciones .opcion {
+    cursor: pointer;
+    text-transform: uppercase;
+    padding: 10px 40px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+  }
+  /* 
+  
+  */
+
+  .productos-showcase .opciones .opcion:hover {
+    color: white;
+  }
+
+  /* 
+  .productos-showcase .opciones .opcion.opcion-activa:hover {
+    background-color: '{{ first_color }}'; 
+  }  
+  */
+
+  @media only screen and (min-width: 481px) {
+    .productos-showcase .opciones .opcion {
+      font-size: 18px;
+      font-family: "ABCfina";
+      min-height: 60px;
+    }
+  }
+
+  .productos-showcase .opciones .opcion.opcion-activa {
+    background-color: white !important;
+    color: #000000;
+  }
+
+  .productos-showcase .opciones .opcion-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: black;
+  }
+
+  .productos-showcase .opcion-info-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+    padding: 20px 0;
+    border-bottom: 1px solid #ddd;
+    
+  }
+
+  @media only screen and (min-width: 1600px) {
+    .productos-showcase .opcion-info-titulo {
+      font-size: 26px;
+      font-family: "ABCfina";
+    }
+  }
+
+  @media only screen and (max-width: 1599px) {
+    .productos-showcase .opcion-info-titulo {
+      font-size: 18px;
+      font-family: "ABCfina";
+    }
+  }
+
+  @media only screen and (max-width: 1350px) {
+    .productos-showcase .opcion-info-titulo {
+      font-size: 16px;
+      font-family: "ABCfina";
+    }
+  }
+
+
+  .productos-showcase .opcion-info-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: black;
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  .productos-showcase .opcion-comprar-boton button {    
+    cursor: pointer;
+    border-radius: 13px;
+    display: block;
+    text-align: center;
+    width: 100%;
+    border: none;        
+    text-transform: uppercase;
+  }
+
+
+  @media only screen and (min-width: 1600px) {
+    .productos-showcase .opcion-comprar-boton button {
+      font-family: "ABCfina";
+      font-size: 18px;
+      padding: 20px 0;
+    }
+  }
+
+  @media only screen and (max-width: 1599px) {
+    .productos-showcase .opcion-comprar-boton button {
+      font-family: "ABCfina";
+      font-size: 14px;
+      padding: 18px 0;
+    }
+  }
+
+  @media only screen and (max-width: 1350px) {
+    .productos-showcase .opcion-comprar-boton button {
+      font-family: "ABCfina";
+      font-size: 14px;
+    }
+  }
+
+  .productos-showcase .opcion-comprar-boton button:hover {
+    //background-color: #D0CFCD !important;
+    transition: 0.5s ease-in-out;
+  }
+
+  .productos-showcase .imagen-principal {
+    position: relative;
+  }
+
+  .productos-showcase .mini-galeria {
+    display: flex;
+    flex-direction: column;
+    gap: 	10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+    margin: 0;
+  }
+
+  .productos-showcase .galeria-imagen {
+    cursor: pointer;
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background-position: center;
+    background-size: cover;
+    transition-duration: 0.2s;    
+    border-radius: 15px;
+  }
+
+
+
+  .productos-showcase .opcion-info {
+    display: none;
+    transition-duration: 0.2s;
+    animation-name: animacionEntrada;
+    animation-duration: 2s;
+  }
+
+  .opcion-info-contenido {
+    display: flex;
+    flex-direction: column;    
+    justify-content: space-evenly;
+    gap: 30px;
+  }
+
+
+  /*   
+  .productos-showcase .opcion-info .opcion-info-contenido .p1 {
+      margin: 0;
+      max-height: 80px;     
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      overflow: hidden;     
+  }
+  */
+
+  .productos-showcase .opcion-info .opcion-info-contenido .p1 {
+    margin: 0;
+  }
+
+  .opcion-info-contenido .description {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly; 
+    gap: 10px;
+    height: 100%;
+  }
+  
+  @media only screen and (min-width: 1600px) {
+    .productos-showcase .opcion-info .opcion-info-contenido {
+      font-family: "ABCfina" !important;
+      font-size: 20px;      
+    }    
+  }
+
+  @media only screen and (max-width: 1599px) {
+    .productos-showcase .opcion-info .opcion-info-contenido {
+      font-family: "ABCfina" !important;
+      font-size: 16px;
+    }
+  }
+
+  @media only screen and (max-width: 1350px) {
+    .productos-showcase .opcion-info .opcion-info-contenido {
+      font-family: "ABCfina" !important;
+      font-size: 14px;
+    }
+  }
+
+  .productos-showcase .opcion-info-activa {
+    display: block;
+  }
+
+  @media(min-width:1600px) {
+    .productos-showcase {
+      height: 850px !important;
+    }
+  }
+
+  @keyframes animacionEntrada {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  // FUNCIONAMIENTO DE BOTONES DE CAMBIO DE PRODUCTO
+  const botones = document.querySelectorAll(".opcion");
+  botones.forEach((boton) => boton.addEventListener("click", () => {
+    if (!boton.classList.contains("opcion-activa")) { // INTERACCION DEL BOTON
+      const botonActivo = document.getElementsByClassName("opcion-activa")[0];
+      botonActivo.classList.remove("opcion-activa");
+      const producto = boton.getAttribute("producto");
+
+      // FUNCIONAMIENTO DE INFO
+      const productoInfoActivo = document.getElementsByClassName("opcion-info-activa")[0];
+      productoInfoActivo.classList.remove("opcion-info-activa");
+      const productoSeleccionadoInfo = document.getElementById("info-" + producto);
+      productoSeleccionadoInfo.classList.add("opcion-info-activa");
+
+      // FUNCIONAMIENTO DE GALERIA
+      const galeriaActiva = document.getElementsByClassName("imagen-principal-activa")[0];
+      galeriaActiva.classList.remove("imagen-principal-activa");
+      const nuevaGaleriaActiva = document.getElementById(producto);
+      nuevaGaleriaActiva.classList.add("imagen-principal-activa");
+
+      // AGREGAR ESTADO ACTIVO AL BOTON CLICKEADO
+      boton.classList.add("opcion-activa");
+    }
+  }));
+
+  // FUNCIONAMIENTO DE GALERIA
+  const imagenes = document.querySelectorAll(".galeria-imagen");
+  imagenes.forEach((imagen) => {
+    imagen.addEventListener("click", () => {
+      const producto = imagen.getAttribute("producto");      
+      const imagenUrl = imagen.getAttribute("src");      
+      const imagenPrincipal = document.getElementsByClassName("imagen-principal-activa");
+      imagenPrincipal[0].style.backgroundImage = "url(" + imagenUrl + ")";                  
+    });
+  });
+
+</script>
+
+{% schema %}
+{
+"name": "Product Copa",
+"tag": "section",
+"class": "section",
+
+"presets": [
+{
+"name": "Custom Product",
+"category": "Custom content"
+
+}
+]
+}
+{% endschema %}

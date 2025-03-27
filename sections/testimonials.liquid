@@ -1,0 +1,112 @@
+{{ 'testimonials.scss' | asset_url | stylesheet_tag }}
+
+<div class="testimonial-grid">
+  {% for block in section.blocks %}
+  <div class="testimonial-card">
+    <div class="testimonial-content">      
+      <img class="social-media" src="{{ block.settings.source_testimonial | img_url: '300x' }}" />
+      <div class="description-container">
+        <p>{{ block.settings.testimonial_description }}</p>
+      </div>
+    </div>
+    <div class="testimonial-footer">
+      <img src="{{ block.settings.testimonial_image | img_url: '300x' }}"
+        alt="Foto de {{ block.settings.testimonial_name }}">
+      <div class="testimonial-info">
+        <p>{{ block.settings.testimonial_name }}</p>
+        <span>{{ block.settings.testimonial_role }}</span>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    const testimonialGrid = document.querySelector('.testimonial-grid');
+
+    testimonialGrid.addEventListener('mousedown', (e) => {
+      isDown = true;
+      testimonialGrid.style.cursor = 'grabbing';
+      startX = e.pageX - testimonialGrid.offsetLeft;
+      scrollLeft = testimonialGrid.scrollLeft;
+    });
+
+    testimonialGrid.addEventListener('mouseleave', () => {
+      isDown = false;
+      testimonialGrid.style.cursor = 'grab';
+    });
+
+    testimonialGrid.addEventListener('mouseup', () => {
+      isDown = false;
+      testimonialGrid.style.cursor = 'grab';
+    });
+
+    testimonialGrid.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - testimonialGrid.offsetLeft;
+      const walk = (x - startX);
+      testimonialGrid.scrollLeft = scrollLeft - walk;
+    });
+
+</script>
+
+
+{% schema %}
+{
+"name": "Testimoniales",
+"tag": "section",
+"class": "section",
+"settings": [
+
+],
+"blocks": [
+{
+"type": "testimonial",
+"name": "Testimonio",
+"limit": 4,
+"settings": [
+  {
+  "type": "image_picker",
+  "id": "source_testimonial",
+  "label": "Red Social - Testimonio"
+  },
+{
+"type": "text",
+"id": "testimonial_name",
+"label": "Nombre",
+"default": "Toño De la Vega"
+},
+{
+"type": "text",
+"id": "testimonial_role",
+"label": "Rol o Título",
+"default": "Campeón Amateur"
+},
+{
+"type": "textarea",
+"id": "testimonial_description",
+"label": "Descripción",
+"default": "Me pareció una raqueta muy bien balanceada..."
+},
+{
+"type": "image_picker",
+"id": "testimonial_image",
+"label": "Imagen de perfil"
+}
+]
+}
+],
+  "presets": [
+  {
+  "name": "Testimoniales",
+  "blocks": [
+  ]
+  }
+  ]
+}
+{% endschema %}

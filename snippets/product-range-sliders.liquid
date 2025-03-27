@@ -1,0 +1,33 @@
+{% comment %}
+Accepts:
+- product: {Object} product object.
+{% endcomment %}
+
+
+{%- liquid
+assign slider_references = product.metafields.custom.product_range_sliders.value
+-%}
+
+<div class="product-range-sliders">
+    {%- if slider_references != blank -%}
+    <div class="product-details">
+        {%- for gid in slider_references -%}
+        {%- assign slider = gid | metaobject -%}
+        {%- if slider.value != blank -%}
+        <div class="slider-container">
+            {% assign sentance = slider.label | split: ' ' %}
+            {% if sentance[0] %}
+            <label>{{ sentance[0] }}</label>
+            {% endif %}
+
+            <div class="slider-container-content">
+                <input id="myinput" type="range" min="0" max="100" value="{{ slider.value.value }}" disabled>
+            </div>
+        </div>
+        {%- endif -%}
+        {%- endfor -%}
+    </div>
+    {%- else -%}
+    <p class="product-range-sliders__empty">No product specifications available</p>
+    {%- endif -%}
+</div>

@@ -1,0 +1,97 @@
+.grid__item {
+  margin-right: 10px;
+}
+
+.collection-filter-buttons {
+  margin: 0 auto;
+}
+
+.collection-filter-title {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.collection-filter-buttons__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.collection-filter-button {
+  font-family: "ABCfina", sans-serif;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(var(--color-foreground), 0.1);
+  border-radius: 5rem;
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  font-size: 1.4rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.collection-filter-button:hover {
+  border-color: rgba(var(--color-foreground), 0.2);
+  background-color: rgba(var(--color-foreground), 0.03);
+}
+
+.collection-filter-button.is-active {
+  background-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+  border-color: rgb(var(--color-foreground));
+}
+
+/* Product Carousel Styles */
+.product-carousel-container {
+  margin-top: 3rem;
+}
+
+.carousel {
+  position: relative;
+}
+
+
+.carousel-item {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.carousel-item.hidden {
+  width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 0;
+  visibility: hidden;
+}
+
+
+@media screen and (max-width: 749px) {
+  .collection-filter-buttons__wrapper {
+    gap: 0.8rem;
+  }
+
+  .collection-filter-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  .carousel {
+    padding: 0 1rem;
+  }
+
+  .owl-nav button {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .owl-prev {
+    left: -1rem;
+  }
+
+  .owl-next {
+    right: -1rem;
+  }
+} 

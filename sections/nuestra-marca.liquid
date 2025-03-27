@@ -1,0 +1,46 @@
+<link
+  rel="stylesheet"
+  href="{{'nuestra-marca.css' | asset_url }}"
+  media="print"
+  onload="this.media='all'">
+
+<div class="nuestra-marca-container">
+  <div class="nuestra-marca-section">
+    <div class="nuestra-marca-image-container">
+      <img class="nuestra-marca-image"
+        src="{{ section.settings.title_image | img_url: 'master' }}" width="100%" height="100%"
+        alt="{{ section.settings.title | escape }}">
+    </div>
+    <div class="nuestra-marca-text align-left-mobile align-left">
+      <div class="text-container">        
+        {{ section.settings.description }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Nuestra Marca",
+    "tag": "section",
+    "class": "section",
+    "presets": [
+      {
+        "name": "Nuestra Marca",
+        "category": "Custom content"
+      }
+    ],
+    "settings": [
+      {
+        "type": "image_picker",
+        "label": "Title Image",
+        "id": "title_image"
+      }, 
+      {
+      "type": "richtext",
+      "id": "description",
+      "label": "Texto Enriquecido"
+      }
+    ]
+  }
+{% endschema %}

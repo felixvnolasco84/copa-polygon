@@ -1,0 +1,29 @@
+.grid_main_collection {
+    justify-content: flex-start;
+
+    .grid__item {
+        flex-grow: 1;
+    }
+}
+
+
+@media only screen and (min-width: 1800px) {
+    .grid_main_collection {
+        .grid__item {
+            flex-grow: 1;
+            width: 448px;
+        }
+    }
+
+}
+
+
+@media only screen and (min-width: 1880px) {
+
+    .grid_main_collection {
+        .grid__item {
+            flex-grow: 0;
+            width: 448px;
+        }
+    }
+}

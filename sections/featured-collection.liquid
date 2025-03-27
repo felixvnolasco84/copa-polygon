@@ -1,0 +1,179 @@
+{{ 'section-collection-filter-buttons.css' | asset_url | stylesheet_tag }}
+{{ 'base.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+{{ 'slick-theme.css' | asset_url | stylesheet_tag }}
+{{ 'slick.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'slick.min.js' | asset_url }}"></script>
+
+<div class="collection-filter-buttons page-width section-{{ section.id }}-padding">
+  {%- unless section.settings.title == blank -%}
+  <h2 class="collection-filter-title {{ section.settings.heading_size }}">
+    {{ section.settings.title | escape }}
+  </h2>
+  {%- endunless -%} 
+
+  <div class="product-carousel-container">
+    <div class="carousel">
+      <div id="Slider-{{ section.id }}" class="filtering">
+        {%- for product in section.settings.collection.products -%}
+        {%- assign product_category = '' -%}
+        <div id="Slide-{{ section.id }}-{{ forloop.index }}" class="grid__item carousel-item">
+          {%
+          render 'pro-card',
+          card_product: product,
+          show_quick_add: true
+          %}
+        </div>
+        {%- else -%}
+        {%- for i in (1..4) -%}
+        <div class="grid__item carousel-item">
+          {% render 'pro-card',
+          card_product: product,
+          show_quick_add: true%}
+        </div>
+        {%- endfor -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+{%- style -%}
+.section-{{ section.id }}-padding {
+padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+}
+@media screen and (min-width: 750px) {
+.section-{{ section.id }}-padding {
+padding-top: {{ section.settings.padding_top }}px;
+padding-bottom: {{ section.settings.padding_bottom }}px;
+}
+}
+{%- endstyle -%}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const slider = $("#Slider-{{ section.id }}");
+
+    function initCarousel() {
+      slider.slick({
+        loop: true,
+        infinite: true,
+        speed: 300,
+        centerMode: true,
+        centerPadding: '60px',
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        responsive: [
+          {
+            breakpoint: 990,
+            settings: {
+              slidesToShow: 2,
+              dots: false,
+              arrows: true
+            }
+          },
+          {
+            breakpoint: 750,
+            settings: {
+              centerPadding: '40px',
+              slidesToShow: 1,
+              dots: false,
+              arrows: true
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              centerPadding: '40px',
+              slidesToShow: 1,
+              dots: false,
+              arrows: true
+            }
+          }
+        ]
+      });
+    }
+    // Initialize carousel on page load
+    initCarousel();
+  });
+</script>
+{% schema %}
+{
+"name": "Products Carrousel",
+"tag": "section",
+"class": "section section-category-filter",
+"settings": [
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default": "Shop by Category"
+},
+{
+"type": "select",
+"id": "heading_size",
+"options": [
+{
+"value": "h2",
+"label": "Small"
+},
+{
+"value": "h1",
+"label": "Medium"
+},
+{
+"value": "h0",
+"label": "Large"
+}
+],
+"default": "h1",
+"label": "Heading Size"
+},
+{
+"type": "collection",
+"id": "collection",
+"label": "Collection"
+},
+{
+"type": "checkbox",
+"id": "enable_quick_add",
+"default": false,
+"label": "Enable quick add"
+},
+{
+"type": "header",
+"content": "Section Padding"
+},
+{
+"type": "range",
+"id": "padding_top",
+"min": 0,
+"max": 100,
+"step": 4,
+"unit": "px",
+"label": "Padding Top",
+"default": 36
+},
+{
+"type": "range",
+"id": "padding_bottom",
+"min": 0,
+"max": 100,
+"step": 4,
+"unit": "px",
+"label": "Padding Bottom",
+"default": 36
+}
+],
+"presets": [
+{
+"name": "Products Carrousel"
+}
+]
+}
+{% endschema %}

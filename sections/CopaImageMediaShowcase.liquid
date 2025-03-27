@@ -1,0 +1,317 @@
+{{ 'base.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+{{ 'slick.css' | asset_url | stylesheet_tag }}
+{{ 'slick-theme.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'slick.min.js' | asset_url }}"></script>
+
+{% schema %}
+{
+  "name": "Image Showcase",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Featured Social Media",
+      "default": "Featured Social Media"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "full",
+          "label": "Full Width"
+        },
+        {
+          "value": "contained",
+          "label": "Contained"
+        }
+      ],
+      "default": "full"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_slide",
+      "name": "Image Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background Image"
+        },
+        {
+          "type": "richtext",
+          "id": "image_text",
+          "label": "Titulo"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Showcase",
+    }
+  ]
+}
+{% endschema %}
+
+<div class="copa-product-showcase {% if section.settings.layout == 'contained' %}container{% endif %}">
+  <div class="image-media-showcase">
+    {% for block in section.blocks %}
+      {% if block.type == 'image_slide' %}
+        <div
+          class="copa-model-slide-container"
+        >
+          <div class="social-media-slide " data-index="{{ forloop.index0 }}">
+            {% if block.settings.background_image %}
+              {{
+                block.settings.background_image
+                | img_url: 'master'
+                | img_tag: block.settings.product.title, 'copa-model-image'
+              }}
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'copa-model-image placeholder' }}
+            {% endif %}
+          </div>
+          <div class="social-title-container"> 
+            {{ block.settings.image_text }}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+
+  .copa-product-showcase {
+    padding: 36px 0;
+  }
+      .image-media-showcase {
+        width: 100%;
+        margin: 0 auto;
+        font-family: ABCfina;
+      }
+      .copa-product-models {
+        width: 100%;
+        height: 100%;
+        min-height: 100%;
+        border-radius: 13px;
+      }
+
+  .copa-model-slide-container {
+    position: relative;
+  }
+
+   /*  
+
+  .copa-model-slide-container:hover .social-title-container {
+    opacity: 1;
+  }
+  
+  */
+
+  .copa-model-slide-container .social-title-container {
+    opacity: 1;
+  }
+  
+  .social-media-slide {
+    width: 100%;
+    height: 100%;
+  }
+
+  .social-title-container {
+    opacity: 0;
+    position: absolute;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    z-index: 2;
+        top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    transition: opacity 0.3s;
+  }
+
+  .social-title-container  > * {
+    color:  white;
+    padding: 1.5rem;
+    max-width: 100%;
+    max-height: 100%;
+  }
+      .copa-model-slide-container {
+        display: none;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 13px;
+        overflow: hidden;
+        position: relative;
+        margin-right: 10px;
+      }
+
+      .copa-model-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 13px;
+        overflow: hidden;
+      }
+
+      .copa-product-details {
+        display: flex;
+        padding: 2rem;
+        flex-direction: column;
+        justify-content: center;
+        max-width: 100%;
+        width: 100%;
+        min-width: 100%;
+        background-color: #f6f6f8;
+        border-radius: 13px;
+    }
+      }
+
+      .copa-product-carousel {
+        position: relative;
+      }
+
+      .copa-product-swatch {
+        display: grid;
+        justify-items: center;
+        padding-bottom: 2rem;
+      }
+
+      .copa-pagination {
+        padding-top: 3rem;
+        text-align: right;
+        font-weight: bold;
+        font-size: 3rem;
+        color: #565656;
+      }
+
+
+      @media (max-width: 768px) {
+
+        .copa-product-showcase {
+          min-width: 100%;
+        }
+        .copa-product-grid {
+          grid-template-columns: 1fr;
+          gap: 0 !important;
+          min-width: 100%;
+        }
+
+        .copa-product-swatch
+        {
+          display: none;
+        }
+
+        .copa-swatch-image {
+              max-width: 70%;
+        }
+
+        .copa-model-image {
+          aspect-ratio: 1 / 1;
+        }
+
+        .copa-product-models {
+          border-radius: 13px 13px 0 0;
+        }
+
+        .copa-product-details {
+          padding: 1.5rem;
+          border-radius: 0 0 13px 13px;
+          overflow: initial !important;
+        }
+
+        .slick-slider {
+          min-width: 100%;
+        }
+
+      }
+
+    /* Make sure .copa-product-details is position: relative
+     so .copa-product-carousel's absolute nav sits inside */
+  .copa-product-details {
+    position: relative;
+    overflow: hidden; /* optional, to hide any overflow */
+  }
+
+  /* Position .copa-product-carousel nav absolutely */
+  .copa-product-carousel {
+    position: relative; /* anchor for nav */
+    width: 100%;
+  }
+
+
+
+  .copa-product-details {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .copa-product-carousel {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .slick-track, .slick-list  {
+    height: 100%;
+  }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      initSocialMediaShowcase();
+    });
+
+    function initSocialMediaShowcase() {
+    $('.image-media-showcase').slick({
+    dots: false,
+    arrows: true,
+    loop: true,
+    infinite: true,
+    centerMode: false,
+    speed: 300,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll:1,
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll:1,
+        }
+      }
+    ]
+  });
+
+
+    }
+</script>

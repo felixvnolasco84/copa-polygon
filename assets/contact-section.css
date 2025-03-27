@@ -1,0 +1,123 @@
+
+@media screen and (max-width: 749px) {
+    .contact-container {
+        margin: 32px 6px !important;
+    }    
+
+    .contact-container-info-title {
+        font-size: 25px !important;
+    }
+    .contact-container-info-description {
+        font-size: 15px !important;
+    }
+}
+
+
+.contact-container {
+    display: flex;
+    flex-direction: column;    
+    border-radius: 13px;
+    background-color: #f6f6f8;
+    gap: 95px;
+    min-height: 580px;
+    font-family: "ABCfina" !important;
+
+
+    .info-span {
+        font-size: 24px;
+        color: #575757;
+        text-align: center;
+        font-family: "ABCfina" !important;
+        border-bottom: 1px solid #57575740;
+        padding-top: 32px;
+        padding-bottom: 32px;
+    }
+
+    .contact-container-info {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 64px 32px;
+
+        .contact-container-info-title {
+            font-size: 44px;
+            color: #575757;
+            text-align: left;
+            font-family: "ABCfina" !important;
+            font-weight: bold;            
+        }
+
+        .contact-container-info-description {
+            font-size: 16px;
+            color: #575757;
+            text-align: left;
+            font-family: "ABCfina" !important;            
+        }
+
+        .info-content {
+
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            .p1 {
+                    margin: 0;
+                }
+            
+        }
+        
+    }
+
+    .info-button {
+        border-radius: 32px;
+        color: #575757;
+        border: 1px solid #575757;
+        background-color: transparent;
+        width: fit-content;
+        margin: auto;
+        margin-bottom: 24px;
+        padding: 8px 16px;
+        min-height: 40px;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+        font-size: 14.5px;
+
+        &:hover {
+            background-color: #575757;
+            color: white;
+            transition-duration: 0.2s;
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .contact-container {
+        margin: 32px 6px !important;
+
+
+        .info-button {
+            font-size: 13px;
+        }
+
+        .contact-container-info {
+            .contact-container-info-title {
+                text-align: left !important;
+                font-size: 25px !important;
+            }
+        }
+    }
+}
+
+
+
+@media screen and (max-width: 749px) {
+    .contact-container {
+        gap: 60px !important;
+
+        .info-span {
+            font-size: 15px !important;
+        }
+    }
+
+}

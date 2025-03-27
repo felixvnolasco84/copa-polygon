@@ -1,0 +1,40 @@
+.search__input.field__input {
+  padding-right: 5rem;
+}
+
+.field__input--search {
+  background-color: #BEBEBE;
+  border-radius: 13px !important;
+  padding: 0 0 0 13px !important;
+  font-family: "ABCfina" !important;
+}
+
+.search__button:focus-visible {
+  background-color: rgb(var(--color-background));
+  z-index: 2;
+}
+
+.search__button:focus {
+  background-color: rgb(var(--color-background));
+  z-index: 2;
+}
+
+.search__button:not(:focus-visible):not(.focused){
+  box-shadow: inherit;
+  background-color: inherit;
+}
+
+.search__button .icon {
+  height: 1.8rem;
+  width: 1.8rem;
+}
+
+/* Remove extra spacing for search inputs in Safari */
+input::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+
+.search_button_remove_top {
+  top: 0 !important;
+}

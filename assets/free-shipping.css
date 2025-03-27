@@ -1,0 +1,91 @@
+/*------------------------------------------------------------------
+Compass Mixins
+*/
+/*------------------------------------------------------------------
+Variables
+*/
+.free-shipping--percentage {
+    transition: all 0.25s cubic-bezier(0.104, 0.204, 0.492, 1);
+  }
+  
+  /*------------------------------------------------------------------
+  Utilities
+  */
+  .free-shipping {
+    color: black !important;
+    display: block;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    text-align: center;    
+    font-weight: 500;
+  }
+  .free-shipping--text {
+    margin-top: 45px;
+    margin-bottom: 10px;
+  }
+  .free-shipping--text-remaining {
+    display: none;    
+    color: #575757;
+    font-family: "ABCfina";
+    line-height: 20px;
+  }
+
+
+  
+  .free-shipping--text-full {
+    display: block;
+    font-family: "ABCfina" !important;
+  }
+  .free-shipping--bar {
+    background: #FFFFFF;
+    height: 12px;
+    max-width: 553px;   
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 13px;    
+  }
+
+  @media screen and (min-width: 375px) {
+    .free-shipping--text-full {
+      font-size: 13px;
+    }
+
+    .free-shipping--text-remaining {
+      font-size: 13px;
+    }
+  }
+
+  @media screen and (min-width: 425px) {
+    .free-shipping--text-full {
+      font-size: 15px;
+    }
+
+    .free-shipping--text-remaining {
+      font-size: 15px;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .free-shipping--text-full {
+      font-size: 18px;
+    }
+
+    .free-shipping--text-remaining {
+      font-size: 18px;
+    }
+  }
+
+  .free-shipping--percentage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: scale(var(--percentage, 0), 1);
+    transform-origin: center left;
+    background: #575757A8;
+    border-radius: 13px;    
+  }
+  

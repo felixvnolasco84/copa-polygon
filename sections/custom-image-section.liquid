@@ -1,0 +1,71 @@
+{% schema %}
+  {
+    "name": "Custom Image Section",
+    "settings": [
+      {
+        "type": "text",
+        "label": "Background Color",
+        "id": "background_color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "image_picker",
+        "id": "section_image",
+        "label": "Section Image"
+      },
+      {
+        "type": "text",
+        "label": "Image Width (in pixels)",
+        "id": "image_width",
+        "default": "300"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom Image Section",
+        "category": "Custom Sections"
+      }
+    ]
+  }
+  {% endschema %}
+  
+  {% assign section = section.settings %}
+  <div class="custom-image-section page-width rounded" style="background-color: {{ section.background_color }}">
+    <div class="section-content">
+      <img
+        src="{{ section.section_image | img_url }}"
+        alt="Section Image"
+        class="centered-image"
+        style="width: {{ section.image_width }}px;"
+        loading="lazy"
+      >
+    </div>
+  </div>
+  
+  <style>
+    .custom-image-section {
+      padding: 50px 0; /* Adjust padding as needed */
+      text-align: center;
+    }
+
+    @media screen and (max-width: 750px) {
+      .custom-image-section {
+        display: none;
+      }
+    }
+  
+    .rounded {
+      border-radius: 15px;
+    }
+  
+    .section-content {
+      max-width: 1096px; /* Set maximum width for the image container */
+      margin: 0 auto;
+    }
+  
+    .centered-image {
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+  
